@@ -31,7 +31,9 @@ for i in range(50):
     snow_list.append([x_snow, y_snow])
 
 
-
+click_sound=pygame.mixer.Sound("gunshot.wav")
+pygame.mixer.music.load("bgmusic.wav")
+pygame.mixer.music.play(-1)
 
 
 done=False
@@ -40,6 +42,11 @@ while not done:
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             done=True
+        elif event.type==pygame.MOUSEBUTTONDOWN:
+            click_sound.play()
+            mouse_x, mouse_y=pygame.mouse.get_pos()
+            print("Mouse clicked at:", mouse_x, mouse_y)
+            
     keys=pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
         x-=vel
