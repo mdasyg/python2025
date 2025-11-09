@@ -35,6 +35,9 @@ click_sound=pygame.mixer.Sound("gunshot.wav")
 pygame.mixer.music.load("bgmusic.wav")
 pygame.mixer.music.play(-1)
 
+pygame.mixer.music.set_volume(0.2)
+click_sound.set_volume(0.5)
+
 background_image=pygame.image.load("space.jpg")
 background_image=pygame.transform.scale(background_image, (screen_width, screen_height))
 player_image=pygame.image.load("player.png")
