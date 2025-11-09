@@ -88,6 +88,8 @@ while not done:
         y=screen_height-25
 
     screen.fill(BLACK)
+
+    
     for i in range(len(snow_list)):
         pygame.draw.circle(screen, WHITE, snow_list[i], 2)
         snow_list[i][1]+=1
