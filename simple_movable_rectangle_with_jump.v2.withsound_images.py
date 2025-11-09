@@ -35,6 +35,13 @@ click_sound=pygame.mixer.Sound("gunshot.wav")
 pygame.mixer.music.load("bgmusic.wav")
 pygame.mixer.music.play(-1)
 
+background_image=pygame.image.load("space.jpg")
+background_image=pygame.transform.scale(background_image, (screen_width, screen_height))
+player_image=pygame.image.load("player.png")
+player_image=pygame.transform.scale(player_image, (50, 50))
+player_image.set_colorkey(WHITE)
+
+
 
 done=False
 clock=pygame.time.Clock()
@@ -46,7 +53,7 @@ while not done:
             click_sound.play()
             mouse_x, mouse_y=pygame.mouse.get_pos()
             print("Mouse clicked at:", mouse_x, mouse_y)
-            
+
     keys=pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
         x-=vel
@@ -95,7 +102,7 @@ while not done:
         y=screen_height-25
 
     screen.fill(BLACK)
-
+    screen.blit(background_image, [0, 0])  
     
     for i in range(len(snow_list)):
         pygame.draw.circle(screen, WHITE, snow_list[i], 2)
@@ -112,7 +119,9 @@ while not done:
 
             
 
-    pygame.draw.rect(screen, RED, [x-25, y-25, 50, 50])
+    #pygame.draw.rect(screen, RED, [x-25, y-25, 50, 50])
+
+    screen.blit(player_image, (x-25, y-25))
 
     pygame.display.flip()
     clock.tick(60)
