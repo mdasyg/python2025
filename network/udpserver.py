@@ -8,4 +8,5 @@ print('UDP server up and listening on port', port)
 while True:
     data,addr=s.recvfrom(1024)
     print('Received message:',repr(data),'from',addr)
-    s.sendto(bytes(msg,'utf-8'),addr)
+    response="Message Received"
+    s.sendto(response.encode('utf-8'),addr)
