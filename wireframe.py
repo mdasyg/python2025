@@ -38,9 +38,9 @@ class Wireframe:
     def translate(self,axis,d):
         if axis in ['x','y', 'z']:
             for node in self.nodes:
-                setattr(node, axis, getattr(nοde,axis)+d) #node.axis=node.axis+d
+                setattr(node, axis, getattr(node,axis)+d) #node.axis=node.axis+d
                 
-    def scale(self, center_xcentery, scale):
+    def scale(self, center_xcenter_y, scale):
         center_x,center_y=center_xcenter_y
         for node in self.nodes:
             node.x = center_x + scale* ( node.x - center_x)
