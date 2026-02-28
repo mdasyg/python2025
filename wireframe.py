@@ -33,6 +33,11 @@ class Wireframe:
         print("\n -- Edges -- ")
         for i,edge in enumerate(self.edges):
             print("%d: (%.2f, %.2f, %.2f)" % (i, edge.start.x, edge.start.y, edge.start.z))
-            print("----> (%.2f, %.2f, %.2f)" % (i,edge.stop.x, edge.stop.y, edge.stop.z))
+            print("----> (%.2f, %.2f, %.2f)" % (edge.stop.x, edge.stop.y, edge.stop.z))
          
-        
+  
+myobject = Wireframe()
+myobject.addNodes([ (0,0,0), (1,2,3), (3,2,1)])
+myobject.addEdges([(1,2)])  
+myobject.outputNodes()
+myobject.outputEdges()
