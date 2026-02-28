@@ -36,8 +36,18 @@ class Wireframe:
             print("----> (%.2f, %.2f, %.2f)" % (edge.stop.x, edge.stop.y, edge.stop.z))
          
   
-myobject = Wireframe()
-myobject.addNodes([ (0,0,0), (1,2,3), (3,2,1)])
-myobject.addEdges([(1,2)])  
-myobject.outputNodes()
-myobject.outputEdges()
+# myobject = Wireframe()
+# myobject.addNodes([ (0,0,0), (1,2,3), (3,2,1)])
+# myobject.addEdges([(1,2)])  
+# myobject.outputNodes()
+# myobject.outputEdges()
+
+if __name__ == "__main__":
+    cube_nodes = [(x,y,z) for x in (0,1) for y in (0,1) for z in (0,1)]
+    cube = Wireframe()
+    cube.addNodes(cube_nodes)
+    cube.outputNodes()
+    cube.addEdges([(n,n+4) for n in range(0,4)])
+    cube.addEdges([(n,n+1) for n in (0,2,4,6)])#range(0,8,2)
+    cube.addEdges([(n,n+2) for n in (0,1,4,5)])
+    cube.outputEdges()
