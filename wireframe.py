@@ -1,3 +1,4 @@
+import math
 
 class Node:
     def __init__(self,coordinates):
@@ -46,6 +47,16 @@ class Wireframe:
             node.x = center_x + scale* ( node.x - center_x)
             node.y = center_y + scale * ( node.y - center_y)
             node.z *= scale
+            
+            
+    def findCenter(self):
+        num_nodes = len(self.nodes)
+        meanX = sum([node.x for node in self.nodes]) / num_nodes
+        meanY = sum([node.y for node in self.nodes]) / num_nodes
+        meanZ = sum([node.z for node in self.nodes]) / num_nodes
+        return (meanX, meanY, meanZ)
+        
+        
   
 # myobject = Wireframe()
 # myobject.addNodes([ (0,0,0), (1,2,3), (3,2,1)])
