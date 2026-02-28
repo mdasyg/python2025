@@ -35,6 +35,17 @@ class Wireframe:
             print("%d: (%.2f, %.2f, %.2f)" % (i, edge.start.x, edge.start.y, edge.start.z))
             print("----> (%.2f, %.2f, %.2f)" % (edge.stop.x, edge.stop.y, edge.stop.z))
          
+    def translate(self,axis,d):
+        if axis in ['x','y', 'z']:
+            for node in self.nodes:
+                setattr(node, axis, getattr(nοde,axis)+d) #node.axis=node.axis+d
+                
+    def scale(self, center_xcentery, scale):
+        center_x,center_y=center_xcenter_y
+        for node in self.nodes:
+            node.x = center_x + scale* ( node.x - center_x)
+            node.y = center_y + scale * ( node.y - center_y)
+            node.z *= scale
   
 # myobject = Wireframe()
 # myobject.addNodes([ (0,0,0), (1,2,3), (3,2,1)])
