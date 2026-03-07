@@ -1,5 +1,6 @@
 import wireframe
 import pygame
+import numpy as np
 
 class ProjectionViewer:
     def __init__(self,width,height):
@@ -23,13 +24,15 @@ class ProjectionViewer:
         self.screen.fill(self.background)
         for wireframe in self.wireframes.values():
             if self.displayEdges:
-                for edge in wireframe.edges:
-                    pygame.draw.aaline(self.screen, self.edgeColour, (edge.start.x, edge.start.y), (edge.stop.x, edge.stop.y), 1)
-                    
+                for n1,n2 in wireframe.edges:
+                    #pygame.draw.aaline(self.screen, self.edgeColour, (edge.start.x, edge.start.y), (edge.stop.x, edge.stop.y), 1)
+                    pygame.draw.aaline(self.screen, self.edgeColour, (wireframe.nodes[n1][0], wireframe.nodes[n1][1]), (wireframe.nodes[n2][0], wireframe.nodes[n2][1]), 1)
+
             if self.displayNodes:
                 for node in wireframe.nodes:
-                    pygame.draw.circle(self.screen, self.nodeColour, (int(node.x), int(node.y)), self.nodeRadius, 0)
-    
+                    #pygame.draw.circle(self.screen, self.nodeColour, (int(node[0]), int(node[1])), self.nodeRadius, 0)
+                    pygame.draw.circle(self.screen, self.nodeColour, (int(node[0]), int(node[1])), self.nodeRadius, 0)
+
     key_to_function = {
     pygame.K_LEFT: (lambda myfunc: myfunc.translateAll('x',-10)),
     pygame.K_RIGHT: (lambda myfunc: myfunc.translateAll('x',10)),
@@ -81,7 +84,7 @@ if __name__ == '__main__':
         # το αντιγράφω από wireframe.pygame cube = Wireframe()
         cube = wireframe.Wireframe()
         cube_nodes = [(x,y,z) for x in (50,250) for y in (50,250) for z in (50,250)]
-        cube.addNodes(cube_nodes)
+        cube.addNodes(np.array(cube_nodes))
         cube.outputNodes()
         cube.addEdges([(n,n+4) for n in range(0,4)])
         cube.addEdges([(n,n+1) for n in (0,2,4,6)])#range(0,8,2)
