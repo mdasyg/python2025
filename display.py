@@ -31,12 +31,18 @@ class ProjectionViewer:
                     pygame.draw.circle(self.screen, self.nodeColour, (int(node.x), int(node.y)), self.nodeRadius, 0)
     
     key_to_function = {
-    pygame.K_LEFT: (lambda x: x.translateAll('x',-10)),
-    pygame.K_RIGHT: (lambda x: x.translateAll('x',10)),
-    pygame.K_DOWN:  (lambda x: x.translateAll('y',10)),
-    pygame.K_UP:    (lambda x: x.translateAll('y',-10)),
-    pygame.K_EQUALS:   (lambda x: x.scaleAll(1.25)),
-    pygame.K_MINUS:     (lambda x: x.scaleAll(0.75))
+    pygame.K_LEFT: (lambda myfunc: myfunc.translateAll('x',-10)),
+    pygame.K_RIGHT: (lambda myfunc: myfunc.translateAll('x',10)),
+    pygame.K_DOWN:  (lambda myfunc: myfunc.translateAll('y',10)),
+    pygame.K_UP:    (lambda myfunc: myfunc.translateAll('y',-10)),
+    pygame.K_EQUALS:   (lambda myfunc: myfunc.scaleAll(1.25)),
+    pygame.K_MINUS:     (lambda myfunc: myfunc.scaleAll(0.75)),
+    pygame.K_x:         (lambda myfunc: myfunc.rotateAll('x', 0.1)),
+    pygame.K_y:         (lambda myfunc: myfunc.rotateAll('y', 0.1)),
+    pygame.K_z:         (lambda myfunc: myfunc.rotateAll('z', 0.1)),
+    pygame.K_c:         (lambda myfunc: myfunc.rotateAll('x', -0.1)),
+    pygame.K_u:         (lambda myfunc: myfunc.rotateAll('y', -0.1)),
+    pygame.K_a:         (lambda myfunc: myfunc.rotateAll('z', -0.1)),
     }
     
     def run(self):
@@ -61,7 +67,12 @@ class ProjectionViewer:
         center_xcenter_y=center_x, center_y
         for wireframe in self.wireframes.values():
             wireframe.scale(center_xcenter_y, scale)
-            
+
+    def rotateAll(self, axis, radians):
+        rotateFunction = 'rotate' + axis.upper()
+        for wireframe in self.wireframes.values():
+            center_xcenter_ycenter_z = wireframe.findCenter()
+            getattr(wireframe, rotateFunction)(center_xcenter_ycenter_z, radians)  
             
             
 if __name__ == '__main__':

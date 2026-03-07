@@ -56,7 +56,29 @@ class Wireframe:
         meanZ = sum([node.z for node in self.nodes]) / num_nodes
         return (meanX, meanY, meanZ)
         
-        
+    def rotateX(self, cxcycz,radians):
+        cx,cy,cz = cxcycz
+        for node in self.nodes:
+            y = node.y - cy
+            z = node.z - cz
+            node.y = cy + y*math.cos(radians) - z*math.sin(radians)
+            node.z = cz + y*math.sin(radians) + z*math.cos(radians)   
+
+    def rotateY(self, cxcycz,radians):
+        cx,cy,cz = cxcycz
+        for node in self.nodes:
+            x = node.x - cx
+            z = node.z - cz
+            node.x = cx + x*math.cos(radians) + z*math.sin(radians)
+            node.z = cz - x*math.sin(radians) + z*math.cos(radians)  
+
+    def rotateZ(self, cxcycz,radians):
+        cx,cy,cz = cxcycz
+        for node in self.nodes:
+            x = node.x - cx
+            y = node.y - cy
+            node.x = cx + x*math.cos(radians) - y*math.sin(radians)
+            node.y = cy + x*math.sin(radians) + y*math.cos(radians) 
   
 # myobject = Wireframe()
 # myobject.addNodes([ (0,0,0), (1,2,3), (3,2,1)])
