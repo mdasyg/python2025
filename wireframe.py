@@ -52,46 +52,65 @@ class Wireframe:
     def translate(self,axis,d):
         if axis in ['x','y', 'z']:
             for node in self.nodes:
-                setattr(node, axis, getattr(node,axis)+d) #node.axis=node.axis+d
-                
+                #setattr(node, axis, getattr(node,axis)+d) #node.axis=node.axis+d
+                if axis == 'x': axis_index = 0
+                elif axis == 'y': axis_index = 1    
+                elif axis == 'z': axis_index = 2
+                node[axis_index] += d
+
     def scale(self, center_xcenter_y, scale):
         center_x,center_y=center_xcenter_y
         for node in self.nodes:
-            node.x = center_x + scale* ( node.x - center_x)
-            node.y = center_y + scale * ( node.y - center_y)
-            node.z *= scale
-            
+            #node.x = center_x + scale* ( node.x - center_x)
+            #node.y = center_y + scale * ( node.y - center_y)
+            #node.z *= scale
+            node[0] = center_x + scale* ( node[0] - center_x)
+            node[1] = center_y + scale * ( node[1] - center_y)
+            node[2] *= scale
             
     def findCenter(self):
         num_nodes = len(self.nodes)
-        meanX = sum([node.x for node in self.nodes]) / num_nodes
-        meanY = sum([node.y for node in self.nodes]) / num_nodes
-        meanZ = sum([node.z for node in self.nodes]) / num_nodes
+        #meanX = sum([node.x for node in self.nodes]) / num_nodes
+        #meanY = sum([node.y for node in self.nodes]) / num_nodes
+        #meanZ = sum([node.z for node in self.nodes]) / num_nodes
+        meanX = sum([node[0] for node in self.nodes]) / num_nodes
+        meanY = sum([node[1] for node in self.nodes]) / num_nodes   
+        meanZ = sum([node[2] for node in self.nodes]) / num_nodes
         return (meanX, meanY, meanZ)
         
     def rotateX(self, cxcycz,radians):
         cx,cy,cz = cxcycz
         for node in self.nodes:
-            y = node.y - cy
-            z = node.z - cz
-            node.y = cy + y*math.cos(radians) - z*math.sin(radians)
-            node.z = cz + y*math.sin(radians) + z*math.cos(radians)   
+            #y = node.y - cy
+            #z = node.z - cz
+            z = node[2] - cz
+            y = node[1] - cy
+            #node.y = cy + y*math.cos(radians) - z*math.sin(radians)
+            #node.z = cz + y*math.sin(radians) + z*math.cos(radians)   
+            node[1] = cy + y*np.cos(radians) - z*np.sin(radians)
+            node[2] = cz + y*np.sin(radians) + z*np.cos(radians)
+
 
     def rotateY(self, cxcycz,radians):
         cx,cy,cz = cxcycz
         for node in self.nodes:
-            x = node.x - cx
-            z = node.z - cz
-            node.x = cx + x*math.cos(radians) + z*math.sin(radians)
-            node.z = cz - x*math.sin(radians) + z*math.cos(radians)  
+            #x = node.x - cx
+            #z = node.z - cz
+            x = node[0] - cx
+            z = node[2] - cz
+            #node.x = cx + x*math.cos(radians) + z*math.sin(radians)
+            #node.z = cz - x*math.sin(radians) + z*math.cos(radians)  
+            node[0] = cx + x*np.cos(radians) + z*np.sin(radians)
+            node[2] = cz - x*np.sin(radians) + z*np.cos(radians)
 
+            
     def rotateZ(self, cxcycz,radians):
         cx,cy,cz = cxcycz
         for node in self.nodes:
-            x = node.x - cx
-            y = node.y - cy
-            node.x = cx + x*math.cos(radians) - y*math.sin(radians)
-            node.y = cy + x*math.sin(radians) + y*math.cos(radians) 
+            x = node[0] - cx
+            y = node[1] - cy
+            node[0] = cx + x*np.cos(radians) - y*np.sin(radians)
+            node[1] = cy + x*np.sin(radians) + y*np.cos(radians) 
   
 # myobject = Wireframe()
 # myobject.addNodes([ (0,0,0), (1,2,3), (3,2,1)])
@@ -102,7 +121,7 @@ class Wireframe:
 if __name__ == "__main__":
     cube_nodes = [(x,y,z) for x in (0,1) for y in (0,1) for z in (0,1)]
     cube = Wireframe()
-    cube.addNodes(cube_nodes)
+    cube.addNodes(np.array(cube_nodes))
     cube.outputNodes()
     cube.addEdges([(n,n+4) for n in range(0,4)])
     cube.addEdges([(n,n+1) for n in (0,2,4,6)])#range(0,8,2)
