@@ -1,4 +1,5 @@
 import math
+import numpy as np
 
 class Node:
     def __init__(self,coordinates):
@@ -14,28 +15,40 @@ class Edge:
  
 class Wireframe:
     def __init__(self):
-        self.nodes = []
+        #self.nodes = []
+        self.nodes = np.zeros((0,4)) # 0 rows, 4 columns
         self.edges = []
         
-    def addNodes(self, nodeList):
-        for node in nodeList:
-            self.nodes.append(Node(node))
+    #def addNodes(self, nodeList):
+    #    for node in nodeList:
+    #        self.nodes.append(Node(node))
+    def addNodes(self, node_array):
+        one_column = np.ones((len(node_array),1))
+        ones_added = np.hstack((node_array, one_column))
+        self.nodes = np.vstack((self.nodes, ones_added)) 
+
             
+    #def addEdges(self, edgeList):
+    #    for (start,stop) in edgeList:
+    #       self.edges.append(Edge(self.nodes[start],self.nodes[stop]))
     def addEdges(self, edgeList):
-        for (start,stop) in edgeList:
-            self.edges.append(Edge(self.nodes[start],self.nodes[stop]))
-            
+        self.edges += edgeList 
+
     def outputNodes(self):
          print("\n -- Nodes -- ")
-         for i,node in enumerate(self.nodes):
-             print("%d: (%.2f, %.2f, %.2f)" % (i, node.x, node.y, node.z))
-             
+         #for i,node in enumerate(self.nodes):
+         #    print("%d: (%.2f, %.2f, %.2f)" % (i, node.x, node.y, node.z))
+         for i,(x,y,z,_) in enumerate(self.nodes):
+            print("%d: (%.2f, %.2f, %.2f)" % (i, x, y, z))
+
     def outputEdges(self):
         print("\n -- Edges -- ")
-        for i,edge in enumerate(self.edges):
-            print("%d: (%.2f, %.2f, %.2f)" % (i, edge.start.x, edge.start.y, edge.start.z))
-            print("----> (%.2f, %.2f, %.2f)" % (edge.stop.x, edge.stop.y, edge.stop.z))
-         
+        #for i,edge in enumerate(self.edges):
+        #    print("%d: (%.2f, %.2f, %.2f)" % (i, edge.start.x, edge.start.y, edge.start.z))
+        #    print("----> (%.2f, %.2f, %.2f)" % (edge.stop.x, edge.stop.y, edge.stop.z))
+        for i, (node1, node2) in enumerate(self.edges):
+             print(" %d: %d -> %d" % (i, node1, node2) )
+
     def translate(self,axis,d):
         if axis in ['x','y', 'z']:
             for node in self.nodes:
