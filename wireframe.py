@@ -49,6 +49,63 @@ class Wireframe:
         for i, (node1, node2) in enumerate(self.edges):
              print(" %d: %d -> %d" % (i, node1, node2) )
 
+    def transform(self, matrix):
+        # apply the transformation to the node array
+        #transformed = self.nodes.dot(node_array)
+        #return transformed
+        print("Before transformation:")
+        #print(matrix)
+        #print(self.nodes)
+        self.nodes = np.dot(self.nodes,matrix)
+        #print(self.nodes)
+
+
+    # transformatio matrix 
+    #usage example->   
+    #
+    # matrix = translationMatrix(dx=10,dy=20,dz=30)  
+    # cube.transform(matrix)
+    @staticmethod
+    def translationMatrix(dx,dy,dz):
+        return np.array([[1,0,0,dx],
+                         [0,1,0,dy],
+                         [0,0,1,dz],
+                         [0,0,0,1]])    
+    
+    @staticmethod
+    def scalingMatrix(sx=1,sy=1,sz=1):
+        return np.array([[sx,0,0,0],
+                         [0,sy,0,0],
+                         [0,0,sz,0],
+                         [0,0,0,1]])
+    
+    @staticmethod
+    def rotationMatrixX(theta):
+        return np.array([[1,0,0,0],
+                         [0,np.cos(theta),-np.sin(theta),0],
+                         [0,np.sin(theta),np.cos(theta),0],
+                         [0,0,0,1]])
+    
+    @staticmethod
+    def rotationMatrixY(theta):
+        return np.array([[np.cos(theta),0,np.sin(theta),0],
+                         [0,1,0,0],
+                         [-np.sin(theta),0,np.cos(theta),0],
+                         [0,0,0,1]])    
+    
+    @staticmethod
+    def rotationMatrixZ(theta):
+        return np.array([[np.cos(theta),-np.sin(theta),0,0],
+                         [np.sin(theta),np.cos(theta),0,0],
+                         [0,0,1,0],
+                         [0,0,0,1]])
+    
+
+
+
+
+
+
     def translate(self,axis,d):
         if axis in ['x','y', 'z']:
             for node in self.nodes:

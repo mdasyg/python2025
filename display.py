@@ -1,4 +1,5 @@
 import wireframe
+from wireframe import Wireframe
 import pygame
 import numpy as np
 
@@ -34,10 +35,15 @@ class ProjectionViewer:
                     pygame.draw.circle(self.screen, self.nodeColour, (int(node[0]), int(node[1])), self.nodeRadius, 0)
 
     key_to_function = {
-    pygame.K_LEFT: (lambda myfunc: myfunc.translateAll('x',-10)),
-    pygame.K_RIGHT: (lambda myfunc: myfunc.translateAll('x',10)),
-    pygame.K_DOWN:  (lambda myfunc: myfunc.translateAll('y',10)),
-    pygame.K_UP:    (lambda myfunc: myfunc.translateAll('y',-10)),
+    #pygame.K_LEFT: (lambda myfunc: myfunc.translateAll('x',-10)),
+    #pygame.K_RIGHT: (lambda myfunc: myfunc.translateAll('x',10)),
+    #pygame.K_DOWN:  (lambda myfunc: myfunc.translateAll('y',10)),
+    #pygame.K_UP:    (lambda myfunc: myfunc.translateAll('y',-10)),
+    pygame.K_LEFT:  (lambda myfunc: myfunc.translateAll([-10,0,0])),
+    pygame.K_RIGHT: (lambda myfunc: myfunc.translateAll([10,0,0])),
+    pygame.K_DOWN:  (lambda myfunc: myfunc.translateAll([0,10,0])),
+    pygame.K_UP:    (lambda myfunc: myfunc.translateAll([0,-10,0])),
+
     pygame.K_EQUALS:   (lambda myfunc: myfunc.scaleAll(1.25)),
     pygame.K_MINUS:     (lambda myfunc: myfunc.scaleAll(0.75)),
     pygame.K_x:         (lambda myfunc: myfunc.rotateAll('x', 0.1)),
@@ -60,10 +66,17 @@ class ProjectionViewer:
             self.display()
             pygame.display.flip()
             
-    def translateAll(self, axis, d):
+    #def translateAll(self, axis, d):
+    #    for wireframe in self.wireframes.values():
+    #        wireframe.translate(axis,d)
+    def translateAll(self, vector):
+        matrix = Wireframe.translationMatrix(vector[0], vector[1], vector[2])
         for wireframe in self.wireframes.values():
-            wireframe.translate(axis,d)
-            
+            wireframe.transform(matrix)
+
+
+
+
     def scaleAll(self,scale):
         center_x = self.width / 2
         center_y = self.height / 2
