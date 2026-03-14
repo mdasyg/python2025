@@ -74,6 +74,8 @@ def cast_rays():
             if 0 <= col < MAP_SIZE and 0 <= row < MAP_SIZE:
                 if MAP[row * MAP_SIZE + col] == '#':
                     pygame.draw.line(win, (255, 255, 0), (player_x, player_y), (target_x, target_y), 3)
+                    #pygame.draw.rect(win, (255, 255, 0), (ray * SCALE + SCREEN_WIDTH/2, (SCREEN_HEIGHT/2) - (200 / (depth * math.cos(current_angle - player_angle))), SCALE, (400 / (depth * math.cos(current_angle - player_angle))))  )
+                    pygame.draw.rect(win, (0,255,0), (col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE-2, TILE_SIZE-2), 2)
                     break
 
 while True:
