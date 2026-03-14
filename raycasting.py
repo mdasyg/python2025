@@ -71,6 +71,18 @@ while True:
         player_angle -= 0.1    
     if keys[pygame.K_RIGHT]:
         player_angle += 0.1
+    if keys[pygame.K_UP]:
+        player_x += -math.sin(player_angle) * speed
+        player_y += math.cos(player_angle) * speed
+    if keys[pygame.K_DOWN]:
+        player_x += +math.sin(player_angle) * speed
+        player_y += -math.cos(player_angle) * speed
+    if keys[pygame.K_p]:
+        speed +=1
+    if keys[pygame.K_m]:
+        speed -=1
+        
+
 
     win.fill((0, 0, 0))
     draw_map()
