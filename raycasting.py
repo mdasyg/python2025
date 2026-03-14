@@ -81,8 +81,8 @@ def cast_rays():
                     wall_height = 21000 / (depth + 0.0001)  # Avoid division by zero
                     if wall_height > SCREEN_HEIGHT:   #to avoid drawing walls taller than the screen
                         wall_height = SCREEN_HEIGHT
-
-                    pygame.draw.rect(win, (255, 255, 255), (SCREEN_HEIGHT + ray * SCALE, (SCREEN_HEIGHT/2) - wall_height / 2, SCALE, wall_height))
+                    color = 255 / (1 + depth * depth * 0.0001)  # Simple shading based on distance
+                    pygame.draw.rect(win, (color, color, color), (SCREEN_HEIGHT + ray * SCALE, (SCREEN_HEIGHT/2) - wall_height / 2, SCALE, wall_height))
 
                     break
 
@@ -134,6 +134,12 @@ while True:
     draw_map()
     # Raycasting logic goes here
     cast_rays()
+
+    fps=str(int(clock.get_fps()))
+    font = pygame.font.SysFont(None, 24)
+    text = font.render(f'FPS: {fps}', True, (255, 255, 255))
+    win.blit(text, (10, 10))
+
     pygame.display.flip()
     clock.tick(30)
 
