@@ -60,6 +60,21 @@ def draw_map():
     stopXY=(player_x - math.sin(player_angle + HALF_FOV) * 40, player_y + math.cos(player_angle + HALF_FOV) * 40)
     pygame.draw.line(win, (255, 0, 0), startXY, stopXY, 3)
 
+def cast_rays():
+    start_angle = player_angle - HALF_FOV
+    for ray in range(CASTED_RAYS):
+        current_angle = start_angle + ray * STEP_ANGLE
+        for depth in range(MAX_DEPTH):
+            target_x = player_x - math.sin(current_angle) * depth
+            target_y = player_y + math.cos(current_angle) * depth
+
+            col = int(target_x / TILE_SIZE)
+            row = int(target_y / TILE_SIZE)
+
+            if 0 <= col < MAP_SIZE and 0 <= row < MAP_SIZE:
+                if MAP[row * MAP_SIZE + col] == '#':
+                    pygame.draw.line(win, (255, 255, 0), (player_x, player_y), (target_x, target_y), 3)
+                    break
 
 while True:
     for event in pygame.event.get():
@@ -81,13 +96,16 @@ while True:
         speed +=1
     if keys[pygame.K_m]:
         speed -=1
-        
+
+    if speed < 0:
+        speed = 1
+
 
 
     win.fill((0, 0, 0))
     draw_map()
     # Raycasting logic goes here
-
+    cast_rays()
     pygame.display.flip()
     clock.tick(30)
 
