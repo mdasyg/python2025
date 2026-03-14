@@ -75,7 +75,7 @@ def cast_rays():
                 if MAP[row * MAP_SIZE + col] == '#':
                     pygame.draw.line(win, (255, 255, 0), (player_x, player_y), (target_x, target_y), 3)
                     #pygame.draw.rect(win, (255, 255, 0), (ray * SCALE + SCREEN_WIDTH/2, (SCREEN_HEIGHT/2) - (200 / (depth * math.cos(current_angle - player_angle))), SCALE, (400 / (depth * math.cos(current_angle - player_angle))))  )
-                    pygame.draw.rect(win, (0,255,0), (col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE-2, TILE_SIZE-2), 2)
+                    #pygame.draw.rect(win, (0,255,0), (col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE-2, TILE_SIZE-2), 2)
 
                     depth *= math.cos(current_angle - player_angle)  # Fish-eye correction
                     wall_height = 21000 / (depth + 0.0001)  # Avoid division by zero
@@ -127,7 +127,7 @@ while True:
 
     # Draw the right half of the screen for the 3D view
     #floor
-    pygame.draw.rect(win, (140,140,140), (SCREEN_WIDTH/2, SCREEN_HEIGHT, SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
+    pygame.draw.rect(win, (255,0,0), (SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH/2, SCREEN_HEIGHT))
     #ceiling
     pygame.draw.rect(win,(200,200,200), (SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2, SCREEN_HEIGHT/2)    )
 
