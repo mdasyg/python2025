@@ -21,7 +21,15 @@ TILE_SIZE = int((SCREEN_WIDTH/2) / MAP_SIZE)
 player_x = (SCREEN_WIDTH/4)           
 player_y = (SCREEN_HEIGHT/2)
 player_angle = 0
-                
+
+FOV = math.pi / 3
+CASTED_RAYS = 120
+MAX_DEPTH = int(MAP_SIZE * TILE_SIZE) 
+STEP_ANGLE = FOV / CASTED_RAYS
+HALF_FOV = FOV / 2
+speed = 1
+
+SCALE = (SCREEN_WIDTH/2) / CASTED_RAYS
 
 pygame.init()
 win = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -38,6 +46,20 @@ def draw_map():
             else:
                 pygame.draw.rect(win, (100, 100, 100), therectang, 1)
     pygame.draw.circle(win, (255, 0, 0), (int(player_x), int(player_y)), 8)
+
+    startXY=(player_x,player_y)
+    #κεντρική ακτίνα
+    stopXY=(player_x - math.sin(player_angle) * 40, player_y + math.cos(player_angle) * 40)
+    pygame.draw.line(win, (255, 0, 0), startXY, stopXY, 3)
+
+    #ακτίνα αριστερά
+    stopXY=(player_x - math.sin(player_angle - HALF_FOV) * 40, player_y + math.cos(player_angle - HALF_FOV) * 40)
+    pygame.draw.line(win, (255, 0, 0), startXY, stopXY, 3)
+
+    #ακτίνα δεξιά
+    stopXY=(player_x - math.sin(player_angle + HALF_FOV) * 40, player_y + math.cos(player_angle + HALF_FOV) * 40)
+    pygame.draw.line(win, (255, 0, 0), startXY, stopXY, 3)
+
 
 while True:
     for event in pygame.event.get():
