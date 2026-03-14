@@ -66,6 +66,11 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        player_angle -= 0.1    
+    if keys[pygame.K_RIGHT]:
+        player_angle += 0.1
 
     win.fill((0, 0, 0))
     draw_map()
