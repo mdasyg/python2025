@@ -76,6 +76,10 @@ def cast_rays():
                     pygame.draw.line(win, (255, 255, 0), (player_x, player_y), (target_x, target_y), 3)
                     #pygame.draw.rect(win, (255, 255, 0), (ray * SCALE + SCREEN_WIDTH/2, (SCREEN_HEIGHT/2) - (200 / (depth * math.cos(current_angle - player_angle))), SCALE, (400 / (depth * math.cos(current_angle - player_angle))))  )
                     pygame.draw.rect(win, (0,255,0), (col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE-2, TILE_SIZE-2), 2)
+
+                    wall_height = 21000 / (depth + 0.0001)  # Avoid division by zero
+                    pygame.draw.rect(win, (255, 255, 255), (SCREEN_HEIGHT + ray * SCALE, (SCREEN_HEIGHT/2) - wall_height / 2, SCALE, wall_height))
+                    
                     break
 
 while True:
