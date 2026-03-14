@@ -77,9 +77,13 @@ def cast_rays():
                     #pygame.draw.rect(win, (255, 255, 0), (ray * SCALE + SCREEN_WIDTH/2, (SCREEN_HEIGHT/2) - (200 / (depth * math.cos(current_angle - player_angle))), SCALE, (400 / (depth * math.cos(current_angle - player_angle))))  )
                     pygame.draw.rect(win, (0,255,0), (col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE-2, TILE_SIZE-2), 2)
 
+                    depth *= math.cos(current_angle - player_angle)  # Fish-eye correction
                     wall_height = 21000 / (depth + 0.0001)  # Avoid division by zero
+                    if wall_height > SCREEN_HEIGHT:   #to avoid drawing walls taller than the screen
+                        wall_height = SCREEN_HEIGHT
+
                     pygame.draw.rect(win, (255, 255, 255), (SCREEN_HEIGHT + ray * SCALE, (SCREEN_HEIGHT/2) - wall_height / 2, SCALE, wall_height))
-                    
+
                     break
 
 while True:
@@ -93,9 +97,11 @@ while True:
     if keys[pygame.K_RIGHT]:
         player_angle += 0.1
     if keys[pygame.K_UP]:
+        forward=True
         player_x += -math.sin(player_angle) * speed
         player_y += math.cos(player_angle) * speed
     if keys[pygame.K_DOWN]:
+        forward=False
         player_x += +math.sin(player_angle) * speed
         player_y += -math.cos(player_angle) * speed
     if keys[pygame.K_p]:
@@ -106,9 +112,25 @@ while True:
     if speed < 0:
         speed = 1
 
-
+    column = int(player_x / TILE_SIZE)
+    row = int(player_y / TILE_SIZE)
+    square = row * MAP_SIZE + column
+    if MAP[square] == '#':
+        if forward:
+            player_x -= -math.sin(player_angle) * speed
+            player_y -= math.cos(player_angle) * speed
+        else:
+            player_x -= +math.sin(player_angle) * speed
+            player_y -= -math.cos(player_angle) * speed
 
     win.fill((0, 0, 0))
+
+    # Draw the right half of the screen for the 3D view
+    #floor
+    pygame.draw.rect(win, (140,140,140), (SCREEN_WIDTH/2, SCREEN_HEIGHT, SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
+    #ceiling
+    pygame.draw.rect(win,(200,200,200), (SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2, SCREEN_HEIGHT/2)    )
+
     draw_map()
     # Raycasting logic goes here
     cast_rays()
