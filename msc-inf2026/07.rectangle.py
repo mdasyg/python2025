@@ -21,7 +21,7 @@ jumpCount = 10
 rect_change_x = 1
 rect_change_y = 1
 
-size=(700,500)
+size=(700,490)
 
 snow_list = []
 for i in range(50):
@@ -34,6 +34,17 @@ for i in range(50):
 
 screen=pygame.display.set_mode(size)
 pygame.display.set_caption("MscInf2026 Template")
+
+background_image = pygame.image.load("msc-inf2026/space.jpg").convert()
+player_image = pygame.image.load("msc-inf2026/player.png").convert_alpha()
+
+
+player_image=pygame.transform.scale(player_image, (40,60))
+player_image.set_colorkey(WHITE)
+click_sound = pygame.mixer.Sound("msc-inf2026/gunshot.wav")
+
+pygame.mixer.music.load("msc-inf2026/Cinematic-deeply-emotive-instrumental-music.mp3")
+pygame.mixer.music.play(-1)  # Play the music indefinitely
 
 running=True
 clock=pygame.time.Clock()
@@ -68,6 +79,7 @@ while running:
           
 
         if keys[pygame.K_SPACE]:
+            click_sound.play()
             isJump = True
     else:
         if jumpCount >= -10:
@@ -99,6 +111,8 @@ while running:
 
 
     screen.fill(WHITE)
+    screen.blit(background_image, [0,0])
+    screen.blit(player_image, (x,y))
     
     #pygame.draw.circle(screen, BLACK, (size[0],25), 50 )
 
@@ -109,7 +123,7 @@ while running:
             snow_list[i][1] = random.randrange(-50, -10)
             snow_list[i][0] = random.randrange(0, size[0])  
     
-    pygame.draw.rect(screen, RED, (x,y,width,height))
+    #pygame.draw.rect(screen, RED, (x,y,width,height))
     
     x += rect_change_x
     y += rect_change_y
